@@ -1,5 +1,5 @@
 import requests
-import requests
+import re
 from bs4 import BeautifulSoup
 
 url = "https://gasprices.aaa.com/"
@@ -12,10 +12,11 @@ html_content = response.text
 
 soup = BeautifulSoup(html_content, "html.parser")
 
-print(html_content)
 price_div = soup.find("div", class_="mobi-average-price mobi-average-price--red")
 price = price_div.find("p", class_="price-text price-text--red").text.strip()
 date = price_div.find("p").text.strip()
 
-print(price)
-print(date)
+# Extract only the numbers from the price and date strings
+price_numbers = re.findall(r"(\d+\.\d+)", price)[0]
+
+print(price_numbers)
